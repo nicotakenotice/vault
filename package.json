@@ -6,7 +6,10 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "postbuild": "powershell Copy-Item dist/vault/browser/index.html dist/vault/browser/404.html",
     "watch": "ng build --watch --configuration development",
+    "predeploy": "ng build --base-href=/vault/ && npm run postbuild",
+    "deploy": "gh-pages -d dist/vault/browser",
     "ionic:build": "npm run build",
     "ionic:serve": "npm run start"
   },
@@ -36,6 +39,7 @@
     "@angular/compiler-cli": "^18.2.0",
     "@ionic/angular-toolkit": "latest",
     "autoprefixer": "^10.4.20",
+    "gh-pages": "^6.1.1",
     "postcss": "^8.4.41",
     "tailwindcss": "^3.4.10",
     "typescript": "~5.5.2"
