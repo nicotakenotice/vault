@@ -1,3 +1,5 @@
 #Folders
+.angular
 .vscode
+dist
 node_modules
