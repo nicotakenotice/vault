@@ -127,30 +127,6 @@
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n"
-        },
-        "ionic-cordova-serve": {
-          "builder": "@ionic/angular-toolkit:cordova-serve",
-          "options": {
-            "cordovaBuildTarget": "vault:ionic-cordova-build",
-            "devServerTarget": "vault:serve"
-          },
-          "configurations": {
-            "production": {
-              "cordovaBuildTarget": "vault:ionic-cordova-build:production",
-              "devServerTarget": "vault:serve:production"
-            }
-          }
-        },
-        "ionic-cordova-build": {
-          "builder": "@ionic/angular-toolkit:cordova-build",
-          "options": {
-            "browserTarget": "vault:build"
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "vault:build:production"
-            }
-          }
         }
       }
     }
