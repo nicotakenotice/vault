@@ -1,19 +1,12 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { StatusBar, Style } from '@capacitor/status-bar';
-import {
-  IonApp,
-  IonContent,
-  IonFooter,
-  IonHeader,
-  IonTitle,
-  IonToolbar
-} from '@ionic/angular/standalone';
+import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, IonApp, IonContent, IonFooter, IonHeader, IonTitle, IonToolbar],
+  imports: [CommonModule, IonApp, IonRouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -24,5 +17,8 @@ export class AppComponent implements OnInit {
 
   setStatusBarStyleLight = async () => {
     await StatusBar.setStyle({ style: Style.Light });
+
+    // const metaTag = document.querySelector('meta[name="theme-color"]') as HTMLMetaElement;
+    // metaTag.content = themeName === 'light' ? '#ffffff' : '#1d232a';
   };
 }
