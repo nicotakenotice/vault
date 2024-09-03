@@ -1,0 +1,20 @@
+<ion-content class="ion-padding" color="light">
+  <div
+    class="flex flex-col items-center h-full"
+    style="padding-bottom: var(--ion-safe-area-bottom, 0)"
+  >
+    <div class="w-24 mt-36">
+      <img src="vault.png" alt="Vault logo" />
+    </div>
+
+    <div class="flex flex-row justify-center items-center gap-2 mt-16 text-lg">
+      <div class="text-right w-32">Vault</div>
+      <div>/</div>
+      <ion-input class="w-32" placeholder="Owner"></ion-input>
+    </div>
+
+    <ion-button class="w-1/2" (click)="enter()">Enter</ion-button>
+
+    <div class="font-mono text-xs opacity-50 mt-auto">v0.0.1</div>
+  </div>
+</ion-content>
