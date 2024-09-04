@@ -1,0 +1,8 @@
+:host {
+  display: block;
+}
+
+// Underlying button
+ion-item-option::part(native) {
+  width: 60px;
+}
