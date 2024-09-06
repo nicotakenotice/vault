@@ -1,9 +1,8 @@
 <ion-list [inset]="true">
   @for (item of items(); track item.id) {
   <ion-item-sliding>
-    <ion-item (click)="viewItem(item)">
+    <ion-item [detail]="true" (click)="viewItem(item)">
       <ion-label>{{ item.title }}</ion-label>
-      <i class="bi bi-chevron-right"></i>
     </ion-item>
 
     <ion-item-options>
