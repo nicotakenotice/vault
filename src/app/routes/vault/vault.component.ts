@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import {
   IonActionSheet,
@@ -25,6 +25,7 @@ import {
 } from '@ionic/angular/standalone';
 import { ListComponent } from '@lib/components';
 import { Vault, Workspace, WorkspaceItem } from '@lib/models';
+import { ThemeService } from '@lib/services';
 import { VAULT } from '@lib/utils';
 
 @Component({
@@ -61,6 +62,9 @@ import { VAULT } from '@lib/utils';
 })
 export class VaultComponent implements OnInit {
   private readonly _router = inject(Router);
+  private readonly _themeService = inject(ThemeService);
+
+  isDarkTheme = computed(() => this._themeService.isDark());
 
   vault = signal<Vault>(structuredClone(VAULT));
   selectedWorkspace = signal<Workspace>(this.vault().workspaces[0]);
@@ -110,7 +114,6 @@ export class VaultComponent implements OnInit {
   }
 
   openWorkspaceModal(): void {
-    console.log(this.workspaceModalOpen() ? 'modal already open' : 'modal opening');
     this.workspaceModalOpen.set(true);
   }
 
@@ -168,5 +171,9 @@ export class VaultComponent implements OnInit {
 
   log(e: any): void {
     console.log(e);
+  }
+
+  toggleTheme(): void {
+    this._themeService.setTheme(this.isDarkTheme() ? 'light' : 'dark');
   }
 }

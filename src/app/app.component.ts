@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { StatusBar, Style } from '@capacitor/status-bar';
+import { Component, inject, OnInit } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
+import { ThemeService } from '@lib/services';
 
 @Component({
   selector: 'app-root',
@@ -11,14 +11,9 @@ import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
+  private readonly _themeService = inject(ThemeService);
+  
   ngOnInit(): void {
-    this.setStatusBarStyleLight();
+    this._themeService.initTheme();
   }
-
-  setStatusBarStyleLight = async () => {
-    await StatusBar.setStyle({ style: Style.Light });
-
-    // const metaTag = document.querySelector('meta[name="theme-color"]') as HTMLMetaElement;
-    // metaTag.content = themeName === 'light' ? '#ffffff' : '#1d232a';
-  };
 }

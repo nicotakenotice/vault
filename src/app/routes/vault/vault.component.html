@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-button routerLink="/" routerAnimation="back">Exit</ion-button>
@@ -8,19 +8,26 @@
 
     <ion-buttons slot="end">
       <ion-button (click)="newItem()">New</ion-button>
+      <ion-button (click)="toggleTheme()">
+        @if (isDarkTheme()) {
+        <i class="bi bi-sun"></i>
+        } @else {
+        <i class="bi bi-moon"></i>
+        }
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding" color="light">
-  <div class="flex flex-col">
+<ion-content class="ion-padding">
+  <div class="flex flex-col gap-4">
     <!-- <ion-button id="open-action-sheet">Open</ion-button> -->
 
     @let workspace = selectedWorkspace();
 
     <div class="grid grid-cols-12 gap-2">
       <div class="col-span-9">
-        <ion-segment [value]="selectedWorkspace().title" [scrollable]="true">
+        <ion-segment [value]="workspace.title" [scrollable]="true">
           @for (workspace of vault().workspaces; track $index) {
           <ion-segment-button [value]="workspace.title" (click)="selectWorkspace(workspace)">
             <ion-label>{{ workspace.title }}</ion-label>
@@ -40,7 +47,7 @@
 
     <!-- <ion-button size="small" (click)="openWorkspaceModal()">{{ workspace.title }}</ion-button> -->
 
-    <ion-searchbar class="mt-4" placeholder="Search"></ion-searchbar>
+    <ion-searchbar class="p-0" placeholder="Search"></ion-searchbar>
 
     <app-list
       [items]="workspace.items"
@@ -62,7 +69,7 @@
     [canDismiss]="canDismissWorkspaceModal"
   >
     <ng-template>
-      <ion-content class="ion-padding" color="light">
+      <ion-content class="ion-padding">
         <ion-searchbar placeholder="Search"></ion-searchbar>
 
         <ion-list [inset]="true">
@@ -86,11 +93,14 @@
     [canDismiss]="canDismissItemModal"
   >
     <ng-template>
-      <ion-content class="ion-padding" color="light">
+      <ion-content class="ion-padding">
         <div class="flex flex-col gap-4 mt-2">
           @let item = selectedItem(); @if (item) {
 
-          <div class="flex flex-row items-center px-3 py-2 bg-white rounded-xl">
+          <div
+            class="flex flex-row items-center px-3 py-2 rounded-xl"
+            style="background-color: var(--ion-item-background)"
+          >
             <ion-input
               class="flex-grow"
               label="Title"
@@ -101,7 +111,10 @@
             <ion-button><i class="bi bi-clipboard"></i></ion-button>
           </div>
 
-          <div class="flex flex-row items-center px-3 py-2 bg-white rounded-xl">
+          <div
+            class="flex flex-row items-center px-3 py-2 rounded-xl"
+            style="background-color: var(--ion-item-background)"
+          >
             <ion-textarea
               label="Notes"
               labelPlacement="stacked"
