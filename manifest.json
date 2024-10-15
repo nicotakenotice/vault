@@ -25,5 +25,15 @@
       "sizes": "512x512",
       "purpose": "maskable"
     }
+  ],
+  "shortcuts": [
+    {
+      "name": "Stats",
+      "url": "/tabs/tab2"
+    },
+    {
+      "name": "Settings",
+      "url": "/tabs/tab3"
+    }
   ]
 }
