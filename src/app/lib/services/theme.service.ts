@@ -13,7 +13,7 @@ export class ThemeService {
   /* ======================================================================= */
 
   initTheme(): void {
-    const name = localStorage.getItem(STORAGE_KEY.THEME) || 'light';
+    const name = localStorage.getItem(STORAGE_KEY.THEME) || 'dark';
     this.setTheme(name as ThemeName);
   }
 
