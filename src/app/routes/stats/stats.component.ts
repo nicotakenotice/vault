@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonCommonImports } from '@lib/utils';
 
 @Component({
   selector: 'app-stats',
   standalone: true,
-  imports: [CommonModule, IonContent, IonHeader, IonTitle, IonToolbar],
+  imports: [CommonModule, IonCommonImports],
   templateUrl: './stats.component.html',
   styleUrls: ['./stats.component.scss']
 })
