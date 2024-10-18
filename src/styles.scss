@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --custom-toolbar-border-width: 0.55px;
+  --custom-toolbar-border-color: var(--ion-background-color-step-150);
+}
+
+ion-toolbar {
+  --border-width: 0 0 var(--custom-toolbar-border-width) !important;
+  --border-color: var(--custom-toolbar-border-color) !important;
+}
