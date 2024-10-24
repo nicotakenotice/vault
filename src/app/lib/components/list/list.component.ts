@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, input, OnInit, output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import {
   IonItem,
   IonItemOption,
@@ -8,7 +8,7 @@ import {
   IonLabel,
   IonList
 } from '@ionic/angular/standalone';
-import { WorkspaceItem } from '@lib/models';
+import { VaultItem } from '@lib/models';
 
 @Component({
   selector: 'app-list',
@@ -25,20 +25,8 @@ import { WorkspaceItem } from '@lib/models';
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
-export class ListComponent implements OnInit {
-  items = input<WorkspaceItem[]>([]);
-  onItemClick = output<WorkspaceItem>();
-  onItemDelete = output<WorkspaceItem>();
-
-  constructor() {}
-
-  ngOnInit() {}
-
-  viewItem(item: WorkspaceItem): void {
-    this.onItemClick.emit(item);
-  }
-
-  deleteItem(item: WorkspaceItem): void {
-    this.onItemDelete.emit(item);
-  }
+export class ListComponent {
+  items = input<VaultItem[]>([]);
+  onItemClick = output<VaultItem>();
+  onItemDelete = output<VaultItem>();
 }
