@@ -4,6 +4,8 @@ import {
   IonButtons,
   IonContent,
   IonHeader,
+  IonLabel,
+  IonText,
   IonTitle,
   IonToolbar
 } from '@ionic/angular/standalone';
@@ -14,6 +16,8 @@ export const IonCommonImports = [
   IonButtons,
   IonContent,
   IonHeader,
+  IonLabel,
+  IonText,
   IonTitle,
   IonToolbar
 ];
