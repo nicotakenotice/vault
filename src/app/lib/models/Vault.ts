@@ -1,6 +1,7 @@
-import { Workspace } from './Workspace';
+import { Label } from './Label';
+import { VaultItem } from './VaultItem';
 
 export class Vault {
-  owner: string = '';
-  workspaces: Workspace[] = [];
+  items: VaultItem[] = [];
+  labels: Label[] = [];
 }
