@@ -1,179 +1,42 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { Router, RouterLink, RouterOutlet } from '@angular/router';
-import {
-  IonActionSheet,
-  IonApp,
-  IonAvatar,
-  IonButton,
-  IonButtons,
-  IonCard,
-  IonCardContent,
-  IonContent,
-  IonHeader,
-  IonImg,
-  IonInput,
-  IonItem,
-  IonLabel,
-  IonList,
-  IonModal,
-  IonSearchbar,
-  IonSegment,
-  IonSegmentButton,
-  IonTextarea,
-  IonTitle,
-  IonToolbar
-} from '@ionic/angular/standalone';
+import { CommonModule } from '@angular/common';
+import { Component, computed, inject, signal } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { IonSearchbar } from '@ionic/angular/standalone';
 import { ListComponent } from '@lib/components';
-import { Vault, Workspace, WorkspaceItem } from '@lib/models';
-import { ThemeService } from '@lib/services';
-import { VAULT } from '@lib/utils';
+import { VaultService } from '@lib/services';
+import { IonCommonImports } from '@lib/utils';
 
 @Component({
   selector: 'app-vault',
   standalone: true,
-  imports: [
-    RouterLink,
-    RouterOutlet,
-    IonActionSheet,
-    IonApp,
-    IonAvatar,
-    IonButton,
-    IonButtons,
-    IonCard,
-    IonCardContent,
-    IonContent,
-    IonHeader,
-    IonImg,
-    IonInput,
-    IonItem,
-    IonLabel,
-    IonList,
-    IonModal,
-    IonSearchbar,
-    IonSegment,
-    IonSegmentButton,
-    IonTextarea,
-    IonTitle,
-    IonToolbar,
-    ListComponent
-  ],
+  imports: [CommonModule, IonCommonImports, IonSearchbar, ListComponent],
   templateUrl: './vault.component.html',
   styleUrl: './vault.component.scss'
 })
-export class VaultComponent implements OnInit {
+export class VaultComponent {
   private readonly _router = inject(Router);
-  private readonly _themeService = inject(ThemeService);
+  private readonly _activatedRoute = inject(ActivatedRoute);
+  private readonly _vaultService = inject(VaultService);
 
-  isDarkTheme = computed(() => this._themeService.isDark());
+  vault = computed(() => this._vaultService.vault());
+  searchValue = signal<string>('');
 
-  vault = signal<Vault>(structuredClone(VAULT));
-  selectedWorkspace = signal<Workspace>(this.vault().workspaces[0]);
-  selectedItem = signal<WorkspaceItem | null>(null);
+  filteredItems = computed(() => {
+    const items = structuredClone(this.vault().items).sort((a, b) => a.name.localeCompare(b.name));
+    const searchValue = this.searchValue();
+    return searchValue
+      ? items.filter((item) => item.name.toUpperCase().includes(searchValue.toUpperCase()))
+      : items;
+  });
 
-  workspaceModalOpen = signal<boolean>(false);
-  itemModalOpen = signal<boolean>(false);
+  /* ======================================================================= */
 
-  actionSheetButtons = [
-    {
-      text: 'Delete',
-      role: 'destructive',
-      data: {
-        action: 'delete'
-      }
-    },
-    {
-      text: 'Share',
-      data: {
-        action: 'share'
-      }
-    },
-    {
-      text: 'Cancel',
-      role: 'cancel',
-      data: {
-        action: 'cancel'
-      }
-    }
-  ];
-
-  constructor() {
-    this.canDismissWorkspaceModal = this.canDismissWorkspaceModal.bind(this);
-    this.canDismissItemModal = this.canDismissItemModal.bind(this);
+  search(e: any) {
+    const value = e.detail.value;
+    this.searchValue.set(value);
   }
 
-  ngOnInit(): void {}
-
-  selectWorkspace(workspace: Workspace): void {
-    this.selectedWorkspace.set(workspace);
-    this.closeWorkspaceModal();
-  }
-
-  async canDismissWorkspaceModal() {
-    this.closeWorkspaceModal();
-    return true;
-  }
-
-  openWorkspaceModal(): void {
-    this.workspaceModalOpen.set(true);
-  }
-
-  closeWorkspaceModal(): void {
-    this.workspaceModalOpen.set(false);
-  }
-
-  selectItem(item: WorkspaceItem | null): void {
-    // this._router.navigateByUrl(`/${item?.id}`);
-
-    this.selectedItem.set(item);
-    this.openItemModal();
-  }
-
-  newItem(): void {
-    const workspace = structuredClone(this.selectedWorkspace());
-    const newItem = new WorkspaceItem();
-    workspace.items = [...workspace.items, newItem];
-    this.updateWorkspace(workspace);
-    this.selectItem(newItem);
-  }
-
-  deleteItem(item: WorkspaceItem): void {
-    const workspace = structuredClone(this.selectedWorkspace());
-    workspace.items = workspace.items.filter((o) => o.title !== item.title);
-    this.updateWorkspace(workspace);
-  }
-
-  updateWorkspace(workspace: Workspace): void {
-    this.vault.update((state) => ({
-      ...state,
-      workspaces: state.workspaces.map((o) => (o.title === workspace.title ? workspace : o))
-    }));
-
-    this.selectWorkspace(workspace);
-  }
-
-  async canDismissItemModal() {
-    this.selectItem(null);
-    this.closeItemModal();
-    return true;
-  }
-
-  openItemModal(): void {
-    this.itemModalOpen.set(true);
-  }
-
-  closeItemModal(): void {
-    this.itemModalOpen.set(false);
-  }
-
-  exit(): void {
-    this._router.navigateByUrl('/');
-  }
-
-  log(e: any): void {
-    console.log(e);
-  }
-
-  toggleTheme(): void {
-    this._themeService.setTheme(this.isDarkTheme() ? 'light' : 'dark');
+  selectItem(itemId: number) {
+    this._router.navigate([itemId], { relativeTo: this._activatedRoute });
   }
 }
