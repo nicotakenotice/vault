@@ -1,0 +1,93 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="../"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>{{ item()?.name }}</ion-title>
+
+    <ion-buttons slot="end">
+      @if (item()) { @if (isReadonly()) {
+      <ion-button (click)="setReadonly(false)">Edit</ion-button>
+      } @else {
+      <ion-button (click)="saveItem(item()!)">Done</ion-button>
+      } }
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  @if (!item()) {
+  <div class="grid place-items-center gap-2">
+    <ion-label>
+      <ion-text color="medium">Oops, item not found.</ion-text>
+    </ion-label>
+  </div>
+  } @else {
+  <div class="flex flex-col gap-6">
+    <ion-list class="!m-0" [inset]="true">
+      <ion-item>
+        <ion-input
+          label="Name"
+          labelPlacement="floating"
+          [value]="item()?.name"
+          [clearInput]="true"
+          [readonly]="isReadonly()"
+          (ionInput)="updateItem($event, 'name')"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-select label="Labels" labelPlacement="floating" [multiple]="true" (ionChange)="log($event)">
+          <ion-select-option value="apples">Apples</ion-select-option>
+          <ion-select-option value="oranges">Oranges</ion-select-option>
+          <ion-select-option value="bananas">Bananas</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+
+    <ion-list class="!m-0" [inset]="true">
+      <ion-item>
+        <ion-textarea
+          label="Notes"
+          labelPlacement="floating"
+          [value]="item()?.notes"
+          [autoGrow]="true"
+          [readonly]="isReadonly()"
+          (ionInput)="updateItem($event, 'notes')"
+        ></ion-textarea>
+      </ion-item>
+    </ion-list>
+
+    <ion-list class="!m-0" [inset]="true">
+      <ion-list-header>
+        <ion-label class="mt-1">Secrets</ion-label>
+        @if (!isReadonly()) {
+        <ion-button class="self-center my-0">Add</ion-button>
+        }
+      </ion-list-header>
+
+      @for (_ of []; track $index) {
+      <ion-item>
+        <div class="grid grid-cols-2 gap-3">
+          <ion-input
+            aria-label="Secret"
+            [value]="'KEY_' + $index"
+            [clearInput]="true"
+            [readonly]="isReadonly()"
+          ></ion-input>
+
+          <ion-input
+            aria-label="Value"
+            type="password"
+            [value]="'123456'"
+            [clearInput]="true"
+            [readonly]="isReadonly()"
+          ></ion-input>
+        </div>
+      </ion-item>
+      }
+    </ion-list>
+  </div>
+  }
+</ion-content>
